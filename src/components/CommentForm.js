@@ -10,30 +10,33 @@ class CommentForm extends Component {
     super(props);
 
     this.inputName = React.createRef();
-    this.handleCommenting = this.handleCommenting.bind(this);
     this.state = {
       commenterName: "",
       commentBody: "",
       timestamp: null
     };
   }
-  handleCommenting = event => {
+  handleSubmitComment = event => {
+    console.log("Form called handleSubmit");
     event.preventDefault();
-    let newState = {};
-    newState = {
+    this.props.onComment({
       commenterName: this.inputName.value,
       commentBody: this.inputComment.value,
-      timestamp: new Date()
-    }
-    this.setState(newState);
+      timestamp: new Date().toTimeString()
+    });
+    //   let newState = {};
+    //   newState = {
+    //     commenterName: this.inputName.value,
+    //     commentBody: this.inputComment.value,
+    //     timestamp: new Date()
+    //   }
+    //   this.setState(newState);
   };
-  componentDidUpdate(){
-    console.log("Updated state: ", this.state);
-  }
+
   render() {
     return (
       <div className="container" style={myFormStyles}>
-        <form onSubmit={this.handleCommenting}>
+        <form onSubmit={this.handleSubmitComment}>
           <input
             ref={input => {
               this.inputName = input;

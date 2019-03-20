@@ -7,22 +7,34 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      comment: {
-        commenterName: "Tester",
-        commentBody: "this is only a test"
-      }
+      commentList: []
     };
   }
-  testFirebase = () => {
+  handleSavingComment = comment => {
+    console.log("App called handleSaving");
+    let newState = this.state.commentList.slice();
+    newState.push(comment);
+    this.setState({ commentList: newState });
+    console.log("test Firebase");
     myFirebase
       .database()
       .ref("comments")
-      .push(this.state);
+      .push(comment);
   };
+  // testFirebase = () => {
+  //   console.log("test Firebase");
+  //   myFirebase
+  //     .database()
+  //     .ref("comments")
+  //     .push(this.state);
+  // };
+  componentDidUpdate() {
+    console.log("Updated state: ", this.state);
+  }
   render() {
     return (
       <div className="App">
-        <CommentForm />
+        <CommentForm onComment={this.handleSavingComment} />
 
         <button onClick={this.testFirebase}>Test Comment</button>
       </div>
