@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import myFirebase from "../firebaseConfig";
 
 import CommentForm from "./CommentForm";
+import ViewComments from "./ViewComments";
 
 class App extends Component {
   constructor(props) {
@@ -21,13 +22,6 @@ class App extends Component {
       .ref("comments")
       .push(comment);
   };
-  // testFirebase = () => {
-  //   console.log("test Firebase");
-  //   myFirebase
-  //     .database()
-  //     .ref("comments")
-  //     .push(this.state);
-  // };
   componentDidUpdate() {
     console.log("Updated state: ", this.state);
   }
@@ -35,8 +29,7 @@ class App extends Component {
     return (
       <div className="App">
         <CommentForm onComment={this.handleSavingComment} />
-
-        <button onClick={this.testFirebase}>Test Comment</button>
+        <ViewComments />
       </div>
     );
   }
