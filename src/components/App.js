@@ -12,18 +12,14 @@ class App extends Component {
     };
   }
   componentWillMount() {
+    // TODO fix so state isn't updated for every comment already in database
     let commentsRef = myFirebase
       .database()
       .ref("comments")
       .orderByKey()
       .limitToLast(10);
     commentsRef.on("child_added", snapshot => {
-      console.log("This ", this);
-      /* Update React state with new array when message is added at Firebase Database */
-      console.log(
-        "I am child snapshot: ",
-        snapshot.child("commenterName").val()
-      );
+      /* Update React state with new array when message added to Firebase Database */
       let newComment = {
         commenterName: snapshot.child("commenterName").val(),
         commentBody: snapshot.child("commentBody").val(),
@@ -32,18 +28,17 @@ class App extends Component {
       let updatedCommentList = this.state.commentList.slice();
       updatedCommentList.push(newComment);
       this.setState({ commentList: updatedCommentList });
-      console.log("I am updated list: ", updatedCommentList);
     });
   }
+  // for testing purposes
   componentDidUpdate() {
     console.log("Updated state: ", this.state);
   }
+  //
   handleSavingComment = comment => {
-    console.log("App called handleSaving");
     let newState = this.state.commentList.slice();
     newState.push(comment);
     this.setState({ commentList: newState });
-    console.log("test Firebase");
     myFirebase
       .database()
       .ref("comments")
