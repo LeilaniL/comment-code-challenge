@@ -8,8 +8,35 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      commentList: []
+      commentList: [""]
     };
+  }
+  componentWillMount() {
+    let commentsRef = myFirebase
+      .database()
+      .ref("comments")
+      .orderByKey()
+      .limitToLast(10);
+    commentsRef.on("child_added", snapshot => {
+      console.log("This ", this);
+      /* Update React state with new array when message is added at Firebase Database */
+      console.log(
+        "I am child snapshot: ",
+        snapshot.child("commenterName").val()
+      );
+      let newComment = {
+        commenterName: snapshot.child("commenterName").val(),
+        commentBody: snapshot.child("commentBody").val(),
+        timestamp: snapshot.child("timestamp").val()
+      };
+      let updatedCommentList = this.state.commentList.slice();
+      updatedCommentList.push(newComment);
+      this.setState({ commentList: updatedCommentList });
+      console.log("I am updated list: ", updatedCommentList);
+    });
+  }
+  componentDidUpdate() {
+    console.log("Updated state: ", this.state);
   }
   handleSavingComment = comment => {
     console.log("App called handleSaving");
@@ -22,14 +49,11 @@ class App extends Component {
       .ref("comments")
       .push(comment);
   };
-  componentDidUpdate() {
-    console.log("Updated state: ", this.state);
-  }
   render() {
     return (
       <div className="App">
         <CommentForm onComment={this.handleSavingComment} />
-        <ViewComments />
+        <ViewComments listOfComments={this.state} />
       </div>
     );
   }
