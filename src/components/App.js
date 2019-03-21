@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      commentList: [""]
+      commentList: []
     };
   }
   componentWillMount() {
@@ -48,7 +48,13 @@ class App extends Component {
     return (
       <div className="App">
         <CommentForm onComment={this.handleSavingComment} />
-        <ViewComments listOfComments={this.state} />
+        {this.state.commentList.length > 1 ? (
+          <ViewComments listOfComments={this.state} />
+        ) : (
+          <div className="container">
+            <p>Please add a comment</p>
+          </div>
+        )}
       </div>
     );
   }
