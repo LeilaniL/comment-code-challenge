@@ -1,3 +1,24 @@
+# Commenting Feature
+
+#### _Made for a code challenge - 03/21/2019_
+
+#### _**By Leilani Leach**_
+
+## Description
+
+_A simple web app where users can view comments, and add their own._
+
+## Setup/Installation Requirements
+
+Visit the deployed site at https://commenting-code-challenge.firebaseapp.com
+
+You can also:
+
+- Clone or download this repo
+- Run "npm install" in the command line at the project folder
+- Run "npm start" to begin the local server and open a browser window
+- Note: You'll need an API key for Firebase. Please contact leilanileach@yahoo.com for info
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -11,11 +32,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
