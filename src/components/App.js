@@ -4,6 +4,12 @@ import myFirebase from "../firebaseConfig";
 import CommentForm from "./CommentForm";
 import ViewComments from "./ViewComments";
 
+const headerStyles = {
+  fontFamily: "monospace",
+  color: "purple",
+  textAlign: "center"
+};
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -11,15 +17,15 @@ class App extends Component {
       commentList: []
     };
   }
-  componentWillMount() {
-    // TODO fix so state isn't updated for every comment already in database
+  componentDidMount() {
+    // get list of comments from database
     let commentsRef = myFirebase
       .database()
       .ref("comments")
       .orderByKey()
       .limitToLast(10);
     commentsRef.on("child_added", snapshot => {
-      /* Update React state with new array when message added to Firebase Database */
+      /* Update React state with new array when message added to database */
       let newComment = {
         commenterName: snapshot.child("commenterName").val(),
         commentBody: snapshot.child("commentBody").val(),
@@ -35,6 +41,7 @@ class App extends Component {
     console.log("Updated state: ", this.state);
   }
   //
+  // save comment to database and update state
   handleSavingComment = comment => {
     let newState = this.state.commentList.slice();
     newState.push(comment);
@@ -47,14 +54,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <CommentForm onComment={this.handleSavingComment} />
-        {this.state.commentList.length > 1 ? (
-          <ViewComments listOfComments={this.state} />
-        ) : (
-          <div className="container">
+        <div className="container">
+          <h1 style={headerStyles}>Comments</h1>
+          <CommentForm onComment={this.handleSavingComment} />
+          {this.state.commentList.length > 0 ? (
+            <ViewComments listOfComments={this.state} />
+          ) : (
             <p>Please add a comment</p>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     );
   }
