@@ -1,5 +1,6 @@
 {
   "projects": {
-    "production": "commenting-code-challenge"
+    "production": "commenting-code-challenge",
+    "default": "commenting-code-challenge"
   }
 }
